@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO Test</title>
+  </head>
+  <body>
+    <h2>Open the console</h2>
+
+    <script src="Server.js"></script>
+    <script>
+      const socket = io("http://localhost:3000");
+
+      socket.emit("hello", "world", (response) => {
+        console.log("Server replied:", response);
+      });
+    </script>
+  </body>
+</html>
