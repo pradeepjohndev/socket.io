@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <title>Socket.IO Demo</title>
@@ -30,4 +30,38 @@
     }
   </script>
 </body>
+</html>
+ -->
+
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Real-time Counter</h2>
+    <h1 id="count">0</h1>
+
+    <button onclick="inc()">+</button>
+    <button onclick="dec()">-</button>
+    <button onclick="clr()">[]</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      
+      socket.on("count", (value) => {
+        document.getElementById("count").textContent = value;
+      });
+
+      function inc() {
+        socket.emit("increment");
+      }
+
+      function dec() {
+        socket.emit("decrement");
+      }
+
+      function clr() {
+        socket.emit("clr");
+      }
+    </script>
+  </body>
 </html>

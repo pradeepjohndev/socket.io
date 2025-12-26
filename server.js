@@ -1,4 +1,4 @@
-import express from 'express'
+/* import express from 'express'
 import { createServer } from 'http'
 import { Server, Socket } from 'socket.io'
 
@@ -24,4 +24,39 @@ io.on("connection", (Socket) => {
 
 server.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
-})
+}) */
+
+
+import express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
+
+const app = express();
+const server = createServer(app);
+const io = new Server(server);
+
+app.use(express.static("public"));
+
+let counter = 0;
+
+io.on("connection", (socket) => {
+    console.log("Client connected:", socket.id);
+    socket.emit("count", counter);
+
+    socket.on("increment", () => {
+        counter++;
+        io.emit("count", counter);
+    });
+
+    socket.on("decrement", () => {
+        counter--;
+        io.emit("count", counter);
+    });
+
+    socket.on("clr", () => {
+        counter = 0;
+        io.emit("count", counter);
+    })
+});
+
+server.listen(3000, () => console.log("http://localhost:3000"));
